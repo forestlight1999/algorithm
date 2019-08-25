@@ -1,5 +1,11 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# coding=utf-8
+'''
+@Author: forestlight
+@Date: 2019-08-25 09:19:39
+@LastEditTime: 2019-08-25 18:00:34
+@Description:
+'''
 
 from utils import get_randint_data
 
@@ -17,7 +23,7 @@ class SingleList(object):
 
 
     def is_list_empty(self): return (self.head == None)
-    
+
     def is_list_full(self): return (self.list_length >= self.list_max_size)
 
     def get_list_size(self): return self.list_length, self.list_max_size
@@ -30,7 +36,7 @@ class SingleList(object):
                 print('{}'.format(node.data), end=' ')
                 node = node.next
             print('\n')
-    
+
     """
     'b' means to insert at the beginning of the list, 'e' means to insert at the end of the list
     """
@@ -58,7 +64,7 @@ class SingleList(object):
 
     def insert_head(self, new_node):
         return self.insert(new_node, 'b')
-    
+
     def insert_end(self, new_node):
         return self.insert(new_node, 'e')
 
@@ -72,7 +78,7 @@ class SingleList(object):
         if self.is_list_empty():
             print ('List is empty')
             return None
-        
+
         # if there is just one item in list
         if not self.head.next:
             if self.head == node or not node:
@@ -96,7 +102,7 @@ class SingleList(object):
                             tep_node.next = None
                             break
                         tep_node = tep_node.next
-                
+
                 self.list_length -= 1
             else:
                 # remove any node on the list
@@ -109,7 +115,7 @@ class SingleList(object):
                         if p2_node == self.end: self.end = p1_node
                         p1_node.next = p2_node.next
                     else: p1_node,p2_node = p2_node,p1_node
-            
+
             return node
 
     def remove_head(self): return self.remove(None, 'b')
@@ -128,10 +134,10 @@ class SingleList(object):
                 p3_node = p2_node.next
                 p2_node.next = p1_node
                 p1_node,p2_node,p3_node = p2_node,p3_node,None
-            
+
             self.head, self.end = self.end, self.head
             self.end.next = None
-        
+
         self.display_list()
 
 if 1:
