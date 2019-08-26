@@ -3,7 +3,7 @@
 '''
 @Author: forestlight
 @Date: 2019-08-25 16:29:29
-@LastEditTime: 2019-08-25 21:27:47
+@LastEditTime: 2019-08-26 22:28:33
 @Description: implement the classical sort algorithm
 '''
 
@@ -11,8 +11,8 @@ from utils import get_randint_data
 from collections.abc import Iterable
 
 class Sort(object):
-    def __init__(self):
-        pass
+    def __init__(self, cache_len):
+        self.cache = [0x0 for i in range(cache_len)]
 
     '''
     @description: bubble sort
@@ -123,26 +123,97 @@ class Sort(object):
     @param {type}
     @return:
     '''
-    def merge_sort(self, array, style='s'):
-        pass
+    def merge_sort(self, array, left, right):
+        def merge(array, left, right):
+            mid = (left + right) // 2
+            i = left
+            j = mid + 1
+            k = left
+
+            # 1. select the smaller item from left array and right array one by one and copy it to cache
+            while i <= mid and j <= right:
+                if array[i] <= array[j]:
+                    self.cache[k] = array[i]
+                    i += 1
+                else:
+                    self.cache[k] = array[j]
+                    j += 1
+                k += 1
+            # 2. copy the rest of array to cache
+            while i <= mid:
+                self.cache[k] = array[i]
+                i += 1
+                k += 1
+            while j <= right:
+                self.cache[k] = array[j]
+                j += 1
+                k += 1
+            # 3. copy cache data to original buffer
+            k = left
+            while k <= right:
+                array[k] = self.cache[k]
+                k += 1
+
+        def divide(array, left, right):
+            if left < right:
+                mid = (left + right) // 2
+
+                divide(array, left, mid)
+                divide(array, mid+1, right)
+                merge(array, left, right)
+
+        divide(array, left, right)
+        print('merge sorted:{}'.format(array))
 
     '''
     @description:
     @param {type}
     @return:
     '''
-    def quick_sort(self, array, style='s'):
-        pass
+    def quick_sort(self, array, left, right):
+        def partition(array, left, right):
+            i = left # left guard
+            j  = right # right guard
+            pivot = array[left] # pivot index(choose the left index default)
+
+            while i < j:
+                # 1. right guard search the smaller value than pivot first
+                while i < j and array[j] >= pivot:
+                    j -= 1
+                # 2. left guard search the bigger value than pivot then
+                while i < j and array[i] <= pivot:
+                    i += 1
+                # 3. switch the guard's value then
+                if i != j: array[i], array[j] = array[j], array[i]
+
+            # 4. switch the pivot's and j's value and return j as new pivot
+            array[left], array[j] = array[j], array[left]
+            return j
+
+        def sort(array, left, right):
+            if left < right:
+                pivot = partition(array, left, right)
+                sort(array, left, pivot - 1)
+                sort(array, pivot + 1, right)
+
+        sort(array, left, right)
+        print('quick sorted:{}'.format(array))
 
 if 1:
-    sort = Sort()
-    array = get_randint_data(10)
+    size = 10
+    sort = Sort(size)
+    array = get_randint_data(size)
     sort.bubble_sort(array)
-    array = get_randint_data(10)
+    array = get_randint_data(size)
     sort.select_sort(array)
-    array = get_randint_data(10)
+    array = get_randint_data(size)
     sort.insert_sort(array)
-    array = get_randint_data(10)
+    array = get_randint_data(size)
     sort.hell_sort(array)
+    array = get_randint_data(size)
+    sort.merge_sort(array, 0, size - 1)
+    array = get_randint_data(size)
+    sort.quick_sort(array, 0, size - 1)
+
 
 
