@@ -3,7 +3,7 @@
 '''
 @Author: forestlight
 @Date: 2019-08-25 16:29:29
-@LastEditTime: 2019-08-26 22:28:33
+@LastEditTime: 2019-08-27 22:08:57
 @Description: implement the classical sort algorithm
 '''
 
