@@ -15,7 +15,7 @@ class Sort(object):
         self.cache = [0x0 for i in range(cache_len)]
 
     '''
-    @description: bubble sort
+    @description: O(n2)/O(n2), O(1), stable
     @param : array; style: 's' means from smallest to biggest, 'b' means from biggest to smallest
     @return: sorted array
     '''
@@ -25,8 +25,13 @@ class Sort(object):
         tep_array = array[:]
         size = len(tep_array)
         if size > 1:
-            for ordered_num in range(size):
+            # this for loop meaning
+            #   1. traverse index : for n data, only need n - 1 times traverse
+            #   2. current bubble number(also the number of order data till now)
+            for ordered_num in range(size - 1):
                 is_exchange = False
+                # this for loop meaning : current disorder data index range(therefore we need -i
+                # why need -1? because for bubble sort, we choose two nearby data for compare
                 for dis_index in range(size - 1 - ordered_num):
                     if (style == 's' and tep_array[dis_index] > tep_array[dis_index+1]) or \
                         (style == 'b' and tep_array[dis_index] < tep_array[dis_index+1]):
@@ -38,17 +43,20 @@ class Sort(object):
         return tep_array
 
     '''
-    @description:
+    @description: O(n2)/O(n2), O(1), stable
     @param {type}
     @return:
     '''
     def select_sort(self, array, style='s'):
         assert(isinstance(array, Iterable))
 
+        # 1. find the smallest or biggest data index from current disorder array
+        # 2. switch the found data with current first data of disorder array
+        # 3. move disorder start index to the next data and repeat step 1 and 2
         tep_array = array[:]
         size = len(tep_array)
         if size > 1:
-            # if only 2 item left, just sort one time
+            # only need n-1 times to traverse the disorder data(for one data, no need to traverse)
             for disorder_start in range(size - 1) :
                 min_index = disorder_start
                 for disorder_index in range(disorder_start, size):
@@ -62,7 +70,7 @@ class Sort(object):
         return tep_array
 
     '''
-    @description:
+    @description: O(n2)/O(n2), O(1), stable
     @param {type}
     @return:
     '''
@@ -72,8 +80,11 @@ class Sort(object):
         size = len(tep_array)
 
         if size > 1:
+            # 1. this for loop: disorder data sequence start index
+            # choose the first data as order sequence
             for dis_index in range(1, size):
                 need_insert = tep_array[dis_index]
+                # 2. this for loop: order data sequence(reversed)
                 for order_index in reversed(range(-1, dis_index)):
                     if tep_array[order_index] > need_insert:
                         tep_array[order_index+1] = tep_array[order_index]
@@ -85,7 +96,7 @@ class Sort(object):
         return tep_array
 
     '''
-    @description:
+    @description: O(n1.5)/O(n2), O(1), NOT stable
     @param {type}
     @return:
     '''
