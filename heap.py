@@ -97,8 +97,8 @@ class Heap(object):
             child_index = get_child_index(child_index, heap_size, style)
             
             # 1. check whether parent child has already arrive the right position
-            if (style == 'min' and value <= min_child) or \
-                    (style == 'max' and value >= max_child):
+            if (style == 'min' and value <= array[child_index]) or \
+                    (style == 'max' and value >= array[child_index]):
                 break
 
             # 2. update parent_index and child_index
@@ -132,7 +132,7 @@ class Heap(object):
             # 2.2 reduce current heap size
             current_size -= 1
             # 2.3 sink the top node
-            self.sink(0, current_size)
+            self.sink(0, current_size, style)
 
         print('heap sorted: {}'.format(array))
 
