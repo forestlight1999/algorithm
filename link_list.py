@@ -139,7 +139,33 @@ class SingleList(object):
             self.end.next = None
 
         self.display_list()
+    
+    def bubble_sort(self, style='s'):
+        # style : 's' means from smallest to biggest, 'b' means from biggest to smallest
+        if self.is_list_empty() or self.head.next == None: return
+        
+        index = 0
+        # this while loop: taverse index(max traverse time n-1)
+        while index < self.list_length - 1:
+            p1 = self.head
+            current_len = self.list_length - 1 - index
+            # this while loop: current disorder link list size
+            while current_len > 0:
+                if p1.data > p1.next.data: p1.data, p1.next.data = p1.next.data, p1.data
+                p1 = p1.next
+                current_len -= 1
 
+            index += 1
+    
+    def insert_sort(self, style='s'):
+        pass
+    
+    def merge_sort(self, style='s'):
+        pass
+    
+    def quick_sort(self, style='s'):
+        pass
+        
 if 1:
     size = 100
     sList = SingleList(size)
