@@ -31,7 +31,13 @@ class Heap(object):
     def generate_heap(self, heap_size, style='min'):
         # now we use sink API to generate min heap
         # 1. get the last none-leaf node index: heap_size / 2
+        # first, binary heap is a complete binary tree:
+        #   if index 0 is root node, the last leaf node index is heap_size -1, its parent node index is ((heap_size -1) -1))/2 => heap_size/2 - 1
+        #   if index 1 is root node, the last leaf node index is heap_size -1, its parent node index is (heap_size - 1)/2 => heap_size/2 - 1/2 => heap_size/2
         index = heap_size // 2 - 1
+        # why we just sink from last none-leaf node? and why we traverse from bottom to top?
+        #   that's because we treat each leaf node as a binary heap
+        #   so we traverse from bottom to top, and sink each none-leaf node one by one
         while index >= 0:
             self.sink(index, heap_size, style)
             index -= 1
