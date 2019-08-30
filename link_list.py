@@ -156,6 +156,17 @@ class SingleList(object):
                 current_len -= 1
 
             index += 1
+        """
+        p_end = self.end
+        while p_end != self.head:
+            p1 = self.head
+            p_temp = None
+            while p1 != p_end:
+                if p1.data > p1.next.data: p1.data, p1.next.data = p1.next.data, p1.data
+                if p1.next == p_end: p_temp = p1
+                p1 = p1.next
+            p_end = p_temp
+        """
     
     def insert_sort(self, style='s'):
         pass
