@@ -210,6 +210,45 @@ class Sort(object):
         sort(array, left, right)
         print('quick sorted:{}'.format(array))
 
+    '''
+    @description: 
+    @param {type}
+    @return:
+    '''
+    def count_sort(self, array, style='min'):
+        assert(style in ('min', 'max'))
+        assert(isinstance(array, Iterable))
+        
+        length = len(array)
+        if length > 1:
+            # 1. traverse array to find max value and min value
+            #   if min_val < 0, need to add compensation to nonenegative number
+            max_val = max(array)
+            min_val = min(array)
+            compense = 0 if min_val >= 0 else (-min_val)
+            max_val = max_val + compense
+            
+            # 2. generate an array to store each value counter
+            counter_array = [0x0 for x in range(max_val+1)]
+            # 2.1 traverse the original array and store value counter to counter_array
+            for item in array:
+                # Note: need to add compensation
+                counter_array[item + compense] += 1
+            # 2.2 add counter_array value one by one to get each value index max index
+            for index in range(1, max_val+1): 
+                counter_array[index] += counter_array[index-1]
+
+            # 3. traverse original array backward and get it index from counter_array
+            cache_array = [0x0 for x in range(length)]
+            for item in reversed(array):
+                cache_array[counter_array[item+compense] - 1] = item
+                counter_array[item+compense] -= 1
+
+            # 4. copy cache data to original array
+            array = cache_array[:]
+
+        return array
+        
 if 1:
     size = 10
     sort = Sort(size)
@@ -225,6 +264,8 @@ if 1:
     sort.merge_sort(array, 0, size - 1)
     array = get_randint_data(size)
     sort.quick_sort(array, 0, size - 1)
+    array = get_randint_data(size)
+    sort.count_sort(array)
 
 
 
