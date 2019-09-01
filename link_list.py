@@ -3,15 +3,22 @@
 '''
 @Author: forestlight
 @Date: 2019-08-25 09:19:39
-@LastEditTime: 2019-08-25 18:00:34
+@LastEditTime: 2019-09-01 11:05:00
 @Description:
 '''
 
+import copy
 from utils import get_randint_data
 
 class sNode(object):
     def __init__(self, data):
         self.data = data
+        self.next = None
+
+class dNode(object):
+    def __init__(self, data):
+        self.data = data
+        self.prev = None
         self.next = None
 
 class SingleList(object):
@@ -20,7 +27,6 @@ class SingleList(object):
         self.end = None
         self.list_length = 0
         self.list_max_size = max_size
-
 
     def is_list_empty(self): return (self.head == None)
 
@@ -139,11 +145,12 @@ class SingleList(object):
             self.end.next = None
 
         self.display_list()
-    
+
     def bubble_sort(self, style='s'):
         # style : 's' means from smallest to biggest, 'b' means from biggest to smallest
         if self.is_list_empty() or self.head.next == None: return
-        
+
+        """
         index = 0
         # this while loop: taverse index(max traverse time n-1)
         while index < self.list_length - 1:
@@ -162,30 +169,94 @@ class SingleList(object):
             p1 = self.head
             p_temp = None
             while p1 != p_end:
-                if p1.data > p1.next.data: p1.data, p1.next.data = p1.next.data, p1.data
-                if p1.next == p_end: p_temp = p1
+                p_temp = p1
+                if p1.data > p1.next.data:
+                    p1.data, p1.next.data = p1.next.data, p1.data
                 p1 = p1.next
             p_end = p_temp
-        """
-    
-    def insert_sort(self, style='s'):
-        pass
-    
+
+        print('list bubble sorted:')
+
     def merge_sort(self, style='s'):
-        pass
-    
+        def get_mid(head):
+            if head == None or head.next == None: return head
+
+            quick = slow = head
+            # why we need to judge quick.next.next here?
+            #   because quick pointer's step is 2
+            while quick.next != None and quick.next.next != None:
+                slow = slow.next
+                quick = quick.next.next
+
+            print(slow.data)
+            return slow
+
+        def merge(head_left, head_right):
+            print('merge start:', head_left.data, head_right.data)
+            if head_left == None or head_right == None: return None
+            left = head_left
+            right = head_right
+
+            # 1. define a new head node and merge the half list to new list
+            if left.data <= right.data:
+                new_head = copy.deepcopy(left)
+            else: new_head = copy.deepcopy(right)
+
+            # 2. merge half lists
+            temp = copy.deepcopy(new_head)
+            count = 0
+            while left != None and right != None:
+                count += 1
+                if count > 10: assert(0)
+                if left.data <= right.data:
+                    temp.next = left
+                    left = left.next
+                else:
+                    temp.next = right
+                    right = right.next
+                print(left, right)
+                temp = temp.next
+
+            # 3. merge the left part to new list
+            if left != None: temp.next = left
+            if right != None: temp.next = right
+
+            print('merge end')
+            return new_head
+
+        def sort(head):
+            # recursive stop condition
+            if self.head == None or self.head.next == None:
+                return head
+            # recursive algorithm
+            left = head
+            mid = get_mid(head)
+            right = mid.next
+            mid.next = None
+
+            return merge(sort(left), sort(right))
+
+        sort(self.head)
+        print('list merge sorted:')
+        self.display_list()
+
     def quick_sort(self, style='s'):
         pass
-        
+
 if 1:
     size = 100
     sList = SingleList(size)
     for i in range(10): sList.insert(sNode(get_randint_data()[0]))
     sList.display_list()
+    """
     sList.revise()
     node = sList.remove_head()
     print('remove head node:{}{}'.format(node, node.data))
     sList.display_list()
     node = sList.remove_end()
     print('remove end node:{}{}'.format(node, node.data))
+    sList.display_list()
+    """
+    #sList.bubble_sort()
+    sList.merge_sort()
     sList.display_list()

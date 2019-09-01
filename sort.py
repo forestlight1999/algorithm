@@ -3,7 +3,7 @@
 '''
 @Author: forestlight
 @Date: 2019-08-25 16:29:29
-@LastEditTime: 2019-08-27 22:08:57
+@LastEditTime: 2019-09-01 09:34:22
 @Description: implement the classical sort algorithm
 '''
 
@@ -165,15 +165,15 @@ class Sort(object):
                 array[k] = self.cache[k]
                 k += 1
 
-        def divide(array, left, right):
+        def sort(array, left, right):
             if left < right:
                 mid = (left + right) // 2
 
-                divide(array, left, mid)
-                divide(array, mid+1, right)
+                sort(array, left, mid)
+                sort(array, mid+1, right)
                 merge(array, left, right)
 
-        divide(array, left, right)
+        sort(array, left, right)
         print('merge sorted:{}'.format(array))
 
     '''
@@ -211,14 +211,14 @@ class Sort(object):
         print('quick sorted:{}'.format(array))
 
     '''
-    @description: 
+    @description:
     @param {type}
     @return:
     '''
     def count_sort(self, array, style='min'):
         assert(style in ('min', 'max'))
         assert(isinstance(array, Iterable))
-        
+
         length = len(array)
         if length > 1:
             # 1. traverse array to find max value and min value
@@ -227,7 +227,7 @@ class Sort(object):
             min_val = min(array)
             compense = 0 if min_val >= 0 else (-min_val)
             max_val = max_val + compense
-            
+
             # 2. generate an array to store each value counter
             counter_array = [0x0 for x in range(max_val+1)]
             # 2.1 traverse the original array and store value counter to counter_array
@@ -235,7 +235,7 @@ class Sort(object):
                 # Note: need to add compensation
                 counter_array[item + compense] += 1
             # 2.2 add counter_array value one by one to get each value index max index
-            for index in range(1, max_val+1): 
+            for index in range(1, max_val+1):
                 counter_array[index] += counter_array[index-1]
 
             # 3. traverse original array backward and get it index from counter_array
@@ -247,8 +247,9 @@ class Sort(object):
             # 4. copy cache data to original array
             array = cache_array[:]
 
+        print('court sorted:{}'.format(array))
         return array
-        
+
 if 1:
     size = 10
     sort = Sort(size)
