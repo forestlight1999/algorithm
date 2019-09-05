@@ -3,7 +3,7 @@
 '''
 @Author: forestlight
 @Date: 2019-08-25 17:06:29
-@LastEditTime: 2019-08-27 22:22:58
+@LastEditTime: 2019-09-04 20:32:35
 @Description: used to implement the heap data structure
 '''
 from utils import get_randint_data
@@ -92,7 +92,7 @@ class Heap(object):
                     (style == 'max' and array[child_index+1] > array[child_index]):
                     return (child_index + 1)
             return child_index
-        
+
         assert(0 <= index < heap_size)
         array = self.array
         parent_index = index
@@ -101,7 +101,7 @@ class Heap(object):
 
         while child_index < heap_size:
             child_index = get_child_index(child_index, heap_size, style)
-            
+
             # 1. check whether parent child has already arrive the right position
             if (style == 'min' and value <= array[child_index]) or \
                     (style == 'max' and value >= array[child_index]):

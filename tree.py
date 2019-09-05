@@ -3,7 +3,7 @@
 '''
 @Author: forestlight
 @Date: 2019-08-31 18:03:30
-@LastEditTime: 2019-09-01 08:50:44
+@LastEditTime: 2019-09-04 20:34:29
 @LastEditors:
 @Description: implement the tree related algorithm
 '''
@@ -47,14 +47,14 @@ class BinaryTree(object):
         self.data_list = data
         self.root = None
         self.create(0)
-    
+
     # use recursive method to create the binary tree
     def create(self, node, index=0):
         if self.data_list:
             if index < len(self.data_list):
                 node = Node(self.data_list[index])
                 if index == 0: self.root = node
-                
+
                 node.left = self.create(node.left, 2 * index + 1)
                 node.right = self.create(node.right, 2 * index + 2)
                 return node
@@ -92,7 +92,7 @@ class BinaryTree(object):
                 self.find(data, node.right)
         return None
 
-class BalBinaryTree(BinaryTree):
+class BinarySearchTree(BinaryTree):
     def __init__(self, seq=()):
         assert isinstance(seq, Iterable)
         self.root = None
@@ -102,7 +102,7 @@ class BalBinaryTree(BinaryTree):
 
     def create(self, *seq):
         if not seq: return
-        
+
         # use the first data as the root
         if not self.root:
             self.root = Node(seq[0])
@@ -122,23 +122,23 @@ class BalBinaryTree(BinaryTree):
                             node.left = Node(item)
                             break
                         else: node = node.left
-    
+
     def find(self, data):
         pass
-    
+
 class BinaryHeap(BinaryTree):
     pass
 
-if 0:
-    ba_tree = BalBinaryTree([9,8,3,5,2,6,11,13,7,1,4])
-    ba_tree.preorder_traverse(ba_tree.root)
-    print('\n')
-    ba_tree.inorder_traverse(ba_tree.root)
-    print('\n')
-    ba_tree.postorder_traverse(ba_tree.root)
-    print('\n')
-    draw(ba_tree.root)
 if 1:
+    bst = BinarySearchTree([9,8,3,5,2,6,11,13,7,1,4])
+    bst.preorder_traverse(bst.root)
+    print('\n')
+    bst.inorder_traverse(bst.root)
+    print('\n')
+    bst.postorder_traverse(bst.root)
+    print('\n')
+    draw(bst.root)
+if 0:
     bi_tree = BinaryTree([9,8,3,5,2,6,11,13])
     #bi_tree.preorder_traverse(bi_tree.root)
     #draw(bi_tree.root)

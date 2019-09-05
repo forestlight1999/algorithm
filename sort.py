@@ -3,7 +3,7 @@
 '''
 @Author: forestlight
 @Date: 2019-08-25 16:29:29
-@LastEditTime: 2019-09-01 09:34:22
+@LastEditTime: 2019-09-05 21:24:27
 @Description: implement the classical sort algorithm
 '''
 
@@ -12,7 +12,7 @@ from collections.abc import Iterable
 
 class Sort(object):
     def __init__(self, cache_len):
-        self.cache = [0x0 for i in range(cache_len)]
+        pass
 
     '''
     @description: O(n2)/O(n2), O(1), stable
@@ -136,33 +136,39 @@ class Sort(object):
     '''
     def merge_sort(self, array, left, right):
         def merge(array, left, right):
+            if left > right: return
+
             mid = (left + right) // 2
             i = left
             j = mid + 1
-            k = left
+            k = 0
+
+            length = right - left + 1
+            cache = [0x0 for x in range(length)]
 
             # 1. select the smaller item from left array and right array one by one and copy it to cache
             while i <= mid and j <= right:
                 if array[i] <= array[j]:
-                    self.cache[k] = array[i]
+                    cache[k] = array[i]
                     i += 1
                 else:
-                    self.cache[k] = array[j]
+                    cache[k] = array[j]
                     j += 1
                 k += 1
             # 2. copy the rest of array to cache
             while i <= mid:
-                self.cache[k] = array[i]
+                cache[k] = array[i]
                 i += 1
                 k += 1
             while j <= right:
-                self.cache[k] = array[j]
+                cache[k] = array[j]
                 j += 1
                 k += 1
             # 3. copy cache data to original buffer
-            k = left
-            while k <= right:
-                array[k] = self.cache[k]
+            k = 0
+            while left <= right:
+                array[left] = cache[k]
+                left += 1
                 k += 1
 
         def sort(array, left, right):
