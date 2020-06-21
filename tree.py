@@ -18,6 +18,7 @@ def bpp(node=None, _end_=', '):
     elif isinstance(node, str):
         print(node, end=_end_)
 
+
 class TraverType(IntEnum):
     recurse = 0,
     stack = 1,
@@ -42,7 +43,8 @@ class BinaryTree(object):
         if self.data_list:
             if index < len(self.data_list):
                 node = Node(self.data_list[index])
-                if index == 0: self.root = node
+                if index == 0:
+                    self.root = node
 
                 node.left = self.create(node.left, 2 * index + 1)
                 node.right = self.create(node.right, 2 * index + 2)
@@ -53,7 +55,8 @@ class BinaryTree(object):
     """
     traverse the binary tree
     """
-    def preorder_traverse(self, node, mode=TraverType.recurse):
+    @staticmethod
+    def preorder_travel(node, mode=TraverType.recurse):
         def preorder_recurse(node):
             if node:
                 bpp(node)
@@ -87,7 +90,8 @@ class BinaryTree(object):
                     node = stack.pop()
                     node = node.right
 
-    def inorder_traverse(self, node, mode=TraverType.recurse):
+    @staticmethod
+    def inorder_travel(node, mode=TraverType.recurse):
         def inorder_recurse(node):
             if node:
                 inorder_recurse(node.left)
@@ -111,7 +115,8 @@ class BinaryTree(object):
                     bpp(node)
                     node = node.right
 
-    def postorder_traverse(self, node, mode=TraverType.recurse):
+    @staticmethod
+    def postorder_travel(node, mode=TraverType.recurse):
         def post_recurse(node):
             if node:
                 post_recurse(node.left)
@@ -149,6 +154,23 @@ class BinaryTree(object):
                         # right node has not been traverse, need to push the node again and search the right tree then
                         stack.append(node)
                         node = node.right
+
+    @staticmethod
+    def breadth_travel(node):
+        if not node:
+            return
+
+        bpp("\nBreadth-Traverse[recursive]:", _end_=' ')
+        queue = [node,]
+        while len(queue):
+            # pop the first node of the queue
+            node = queue.pop(0)
+            bpp(node)
+            # enqueue the left and right node of current node
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
 
     def find(self, data, node):
         # use traverse algorithm to find the node
@@ -217,14 +239,16 @@ rand_data = get_randint_data(16)
 #     draw(bst.root)
 if 1:
     bi_tree = BinaryTree(rand_data)
-    node = bi_tree.root
-    bi_tree.preorder_traverse(node)
-    bi_tree.preorder_traverse(node, TraverType.stack)
+    root_node = bi_tree.root
+    bi_tree.preorder_travel(root_node)
+    bi_tree.preorder_travel(root_node, TraverType.stack)
 
-    bi_tree.inorder_traverse(node)
-    bi_tree.inorder_traverse(node, TraverType.stack)
+    bi_tree.inorder_travel(root_node)
+    bi_tree.inorder_travel(root_node, TraverType.stack)
 
-    bi_tree.postorder_traverse(node)
-    bi_tree.postorder_traverse(node, TraverType.stack)
-    # draw_tree(bi_tree.root)
+    bi_tree.postorder_travel(root_node)
+    bi_tree.postorder_travel(root_node, TraverType.stack)
+
+    bi_tree.breadth_travel(root_node)
+    draw_tree(bi_tree.root)
     # bi_tree.find(3, bi_tree.root)
